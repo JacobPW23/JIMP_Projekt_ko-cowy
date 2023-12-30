@@ -11,12 +11,12 @@ void generuj_losowa_mape(mapa_t mapa, int zapelnienie)
 
 }
 
-void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t stan)
+void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
 {
 
 }
 
-void zwolnij_mape(mapa_t *mapa)
+void zwolnij_mape(mapa_t mapa)
 {
 
 }
