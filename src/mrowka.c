@@ -1,7 +1,7 @@
 #include "mrowka.h"
 #include "mapa.h"
 
-void inicjuj(mrowka_t mrowka, int wiersz, int kolumna, char kolor_pola, char zwrot)
+mrowka_t inicjuj(int wiersz, int kolumna, char kolor_pola, char zwrot)
 {
 	
 }

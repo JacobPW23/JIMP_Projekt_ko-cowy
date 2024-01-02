@@ -2,7 +2,7 @@
 #define MROWKA
 #include "struktury.h"
 
-void inicjuj(mrowka_t mrowka, int wiersz, int kolumna, char kolor_pola, char zwrot);
+mrowka_t inicjuj(int wiersz, int kolumna, char kolor_pola, char zwrot);
 //ustawia poczatkowy stan mrowki
 
 int przejscie(mapa_t  mapa, mrowka_t stan);

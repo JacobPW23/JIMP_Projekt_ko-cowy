@@ -2,7 +2,7 @@
 #define MAPA
 #include "struktury.h"
 
-void inicjuj_mape(mapa_t mapa, int liczba_kolumn, int liczba_wierszy);
+mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy);
 //zaalokowanie pamieci na mape, wczytanie liczby kolumn, wierszy
 
 void generuj_losowa_mape(mapa_t mapa, int zapelnienie);
