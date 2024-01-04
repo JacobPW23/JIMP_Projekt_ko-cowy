@@ -1,8 +1,8 @@
 #ifndef WYPISZ_MAPE
 #define WYPISZ_MAPE
-struct mapa;
-struct mrowka;
+#include "mapa.h"
+#include "mrowka.h"
 
-void wypisz(struct mapa, struct mrowka);
+void wypisz(mapa_t mapa, mrowka_t mrowka);
 
 #endif
