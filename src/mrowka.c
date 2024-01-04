@@ -1,12 +1,16 @@
 #include "mrowka.h"
 #include "mapa.h"
 #include <stdlib.h>
-mrowka_t inicjuj(int wiersz, int kolumna, char kolor_pola, char zwrot)
+#include <stdio.h>
+mrowka_t inicjuj(int wiersz, int kolumna, char zwrot)
 {
 	mrowka_t mrowka=malloc(sizeof *mrowka);
+	if(mrowka==NULL){
+		fprintf(stderr,"Nie udało się zaalokować pamięci na mrowkę");
+		return NULL;
+	}
 	mrowka->wiersz=wiersz;
 	mrowka->kolumna=kolumna;
-	mrowka->kolor_pola=kolor_pola;
 	mrowka->zwrot=zwrot;
 	mrowka->nr_iteracji=0;
 	return mrowka;
