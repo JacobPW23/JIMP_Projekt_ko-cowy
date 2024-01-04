@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <errno.h>
 
 mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 {
@@ -27,6 +28,8 @@ mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 			mapa->kolory[i][j]='b';
 		}
 	}
+
+	return mapa;
 }
 
 void generuj_losowa_mape(mapa_t mapa, int zapelnienie)
@@ -47,12 +50,17 @@ void generuj_losowa_mape(mapa_t mapa, int zapelnienie)
 
 void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
 {
-	char *zwrot_mrowki=&(mrowka->zwrot);
 	int nr_wiersza;
 	int nr_kolumny;
 	int kol_czarne;
 	int wier_czarne;
 	FILE *plik=fopen(nazwa_pliku, "r");
+	if(plik==NULL)
+	{
+		printf("Nie udalo sie otworzyc pliku.\n");
+		errno = -1;
+		return;
+	}
 	fscanf(plik, "%d %d", &nr_wiersza, &nr_kolumny);//poczatkowe polozenie mrowki
 
 	while(fscanf(plik, "%d %d", &wier_czarne, &kol_czarne)==2)
