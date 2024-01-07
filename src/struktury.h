@@ -4,7 +4,6 @@
 typedef struct mrowka {
         int wiersz;
         int kolumna;
-        char kolor_pola;
         char zwrot;
         int nr_iteracji;
 } *mrowka_t;

@@ -5,9 +5,8 @@
 mrowka_t inicjuj(int wiersz, int kolumna, char zwrot)
 {
 	mrowka_t mrowka=malloc(sizeof *mrowka);
-	if(mrowka==NULL)
-	{
-		printf("Nie udalo sie zaalokowac pamieci na mrowke");
+	if(mrowka==NULL){
+		fprintf(stderr,"Nie udało się zaalokować pamięci na mrowkę");
 		return NULL;
 	}
 	mrowka->wiersz=wiersz;
@@ -29,7 +28,6 @@ if(*obecne_pole_na_mapie=='b')
 	switch(zwrot)
 	{
 
-
 		case 'N': mrowka->zwrot='E';*obecne_pole_na_mapie='c';if(*nr_kol==kolumn_na_mapie-1)  return 1; else (*nr_kol)++; break;
 		case 'E': mrowka->zwrot='S';*obecne_pole_na_mapie='c';if(*nr_wier==wierszy_na_mapie-1) return 1; else (*nr_wier)++; break;
 		case 'S': mrowka->zwrot='W';*obecne_pole_na_mapie='c';if(*nr_kol==0) return 1; else (*nr_kol)--;break;
@@ -42,13 +40,10 @@ else if(*obecne_pole_na_mapie=='c')
 {
        switch(zwrot)
        {
-
-
 	        case 'N': mrowka->zwrot='W';*obecne_pole_na_mapie='b';if(*nr_kol==0)  return 1; else (*nr_kol)--;break;
 	        case 'E': mrowka->zwrot='N';*obecne_pole_na_mapie='b';if(*nr_wier==0) return 1; else (*nr_wier)--;break;
 		case 'S': mrowka->zwrot='E';*obecne_pole_na_mapie='b';if(*nr_kol==kolumn_na_mapie-1) return 1; else (*nr_kol)++; break;
 		case 'W': mrowka->zwrot='S';*obecne_pole_na_mapie='b';if(*nr_wier==wierszy_na_mapie-1) return 1; else (*nr_wier)++; break;
-
         }
 }
 return 0;
