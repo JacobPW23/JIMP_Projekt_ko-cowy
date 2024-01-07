@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 #include "mrowka.h"
 #include "mapa.h"
 
@@ -9,38 +11,43 @@ int main(int argc, char **argv)
 	int liczba_wierszy=10;
 	int liczba_kolumn=10;
 	int liczba_iteracji=5;
-	char **przedrostek="file";
+	char *przedrostek="file";
 	char kierunek_mrowki='N';
-	char **nazwa_pliku="domyslna";
+	char *nazwa_pliku="domyslna";
+	int zapelnienie=-1;
 
 	int opt;
-	while((opt = getopt(argc, argv, "m:n:i:f:d:l:"))!=-1)
+	while((opt = getopt(argc, argv, "m:n:i:f:d:l:r:"))!=-1)
 	{
 		switch(opt)
 		{
 			case 'm':
-				printf("argument m: %s\n", optarg);
-				liczba_wierszy = optarg;
+				//liczba wierszy
+				liczba_wierszy = atoi(optarg);
 				break;
 			case 'n':
-				printf("argument n: %s\n", optarg);
-				liczba_kolumn = optarg;
+				//liczba kolumn
+				liczba_kolumn = atoi(optarg);
 				break;
 			case 'i':
-				printf("argument i: %s\n", optarg);
-				liczba_iteracji = optarg;
+				//liczba iteracji
+				liczba_iteracji = atoi(optarg);
 				break;
 			case 'f':
-				printf("argument f: %s\n", optarg);
+				//przedrostek pliku wynikowego
 				przedrostek = optarg;
 				break;
 			case 'd':
-				printf("argument d: %s\n", optarg);
-				kierunek_mrowki = optarg;
+				//kierunek mrowki
+				kierunek_mrowki = optarg[0];
 				break;
 			case 'l':
-				printf("argument l: %s\n", optarg);
+				//zaladuj mapę
 				nazwa_pliku = optarg;
+				break;
+			case 'r':
+				//generuj losową mapę
+				zapelnienie = atoi(optarg);
 				break;
 			case '?':
 				printf("nieznana opcja\n");
@@ -48,6 +55,53 @@ int main(int argc, char **argv)
 		}
 	}
 	
+	mapa_t mapa;
+	mrowka_t mrowka;
+	mapa=inicjuj_mape(liczba_wierszy, liczba_kolumn);
+	mrowka=inicjuj(liczba_kolumn/2, liczba_wierszy/2, kierunek_mrowki);
+
+	if(strcmp(nazwa_pliku, "domyslna")!=0)
+	{
+		wczytaj_mape(nazwa_pliku, mapa, mrowka);
+	}
+
+	else if(zapelnienie>=0)
+	{
+		generuj_losowa_mape(mapa, zapelnienie);
+	}
+
+	for(int i=1;i<=liczba_iteracji;i++)
+	{
+		char nr_iteracji[50];
+		sprintf(nr_iteracji,"%d", i);
+		char *nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
+		if(nazwa == NULL)
+		{
+			perror("Nie udalo sie zaalokowac pamieci na nazwe");
+			exit(1);
+		}
+		strcat(nazwa, przedrostek);
+		strcat(nazwa, nr_iteracji);
+		FILE *wypisz = fopen(nazwa, "w");
+		if(wypisz == NULL)
+		{
+			perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
+			exit(1);
+		}
+
+		fprintf(wypisz, "%c %d %d \n", mrowka->zwrot, mrowka->wiersz, mrowka->kolumna);
+		przejscie(mapa, mrowka);
+		for(int j=0;j<liczba_wierszy;j++)
+		{
+			for(int k=0;k<liczba_kolumn;k++)
+			{
+				if(mapa->kolory[j][k]=='c')
+				{
+					fprintf(wypisz, "%d %d \n", j, k);
+				}
+			}
+		}
+	}
 
 	return 0;
 }

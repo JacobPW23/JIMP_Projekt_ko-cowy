@@ -13,7 +13,7 @@ mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
         mapa->kolory=malloc(liczba_wierszy*sizeof(char *));
 	if(mapa->kolory==NULL)
 	{
-		printf("Nie udało się zaalokować pamięci");
+		printf("Nie udało się zaalokować pamięci na mape");
 		return NULL;
 	}
         for(int i=0;i<mapa->liczba_kolumn;i++)
