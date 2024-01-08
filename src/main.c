@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "mrowka.h"
 #include "mapa.h"
+#include "wypisz.h"
 
 
 int main(int argc, char **argv)
@@ -59,7 +60,7 @@ int main(int argc, char **argv)
 	mrowka_t mrowka;
 	mapa=inicjuj_mape(liczba_wierszy, liczba_kolumn);
 	mrowka=inicjuj(liczba_kolumn/2, liczba_wierszy/2, kierunek_mrowki);
-
+	
 	if(strcmp(nazwa_pliku, "domyslna")!=0)
 	{
 		wczytaj_mape(nazwa_pliku, mapa, mrowka);
@@ -82,25 +83,15 @@ int main(int argc, char **argv)
 		}
 		strcat(nazwa, przedrostek);
 		strcat(nazwa, nr_iteracji);
-		FILE *wypisz = fopen(nazwa, "w");
-		if(wypisz == NULL)
+		FILE *plik = fopen(nazwa, "w");
+		if(plik == NULL)
 		{
 			perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
 			exit(1);
 		}
 
-		fprintf(wypisz, "%c %d %d \n", mrowka->zwrot, mrowka->wiersz, mrowka->kolumna);
+		wypisz(mapa, mrowka, plik);
 		przejscie(mapa, mrowka);
-		for(int j=0;j<liczba_wierszy;j++)
-		{
-			for(int k=0;k<liczba_kolumn;k++)
-			{
-				if(mapa->kolory[j][k]=='c')
-				{
-					fprintf(wypisz, "%d %d \n", j, k);
-				}
-			}
-		}
 	}
 
 	return 0;
