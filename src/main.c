@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "mrowka.h"
 #include "mapa.h"
 #include "wypisz.h"
@@ -45,6 +46,7 @@ int main(int argc, char **argv)
 			case 'l':
 				//zaladuj mapę
 				nazwa_pliku = optarg;
+				printf("Argument to %s\n", nazwa_pliku);
 				break;
 			case 'r':
 				//generuj losową mapę
@@ -61,12 +63,12 @@ int main(int argc, char **argv)
 	mapa=inicjuj_mape(liczba_wierszy, liczba_kolumn);
 	mrowka=inicjuj(liczba_kolumn/2, liczba_wierszy/2, kierunek_mrowki);
 	
-	if(strcmp(nazwa_pliku, "domyslna")!=0)
-	{
+	if((strcmp(nazwa_pliku, "domyslna"))!=0)
+	{	
 		wczytaj_mape(nazwa_pliku, mapa, mrowka);
 	}
 
-	else if(zapelnienie>=0)
+	if(zapelnienie>=0)
 	{
 		generuj_losowa_mape(mapa, zapelnienie);
 	}

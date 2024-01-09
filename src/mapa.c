@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <errno.h>
+#include <wchar.h>
+#include <locale.h>
 
 mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 {
@@ -50,28 +52,91 @@ void generuj_losowa_mape(mapa_t mapa, int zapelnienie)
 
 void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
 {
-	int nr_wiersza;
-	int nr_kolumny;
-	int kol_czarne;
-	int wier_czarne;
+	setlocale(LC_ALL, "C.UTF-8");
 	FILE *plik=fopen(nazwa_pliku, "r");
 	if(plik==NULL)
 	{
 		printf("Nie udalo sie otworzyc pliku.\n");
 		errno = -1;
 		return;
-	}
-	fscanf(plik, "%d %d", &nr_wiersza, &nr_kolumny);//poczatkowe polozenie mrowki
-
-	while(fscanf(plik, "%d %d", &wier_czarne, &kol_czarne)==2)
-	{
-		if((wier_czarne<mapa->liczba_wierszy && wier_czarne>=0) && kol_czarne<mapa->liczba_kolumn && kol_czarne>=0)
-		{
-			mapa->kolory[wier_czarne][kol_czarne]='c';
-		}
-	}	
-      		
 	
+	}
+	wchar_t linia[1024];
+	int licznik_wierszy=0;
+	int licznik_kolumn=0;
+	wchar_t znak;
+	fgetws(linia, sizeof(linia), plik);
+	fgetws(linia, sizeof(linia), plik);
+	for (int j=0;licznik_wierszy<mapa->liczba_wierszy;j++)
+	{
+		fgetws(linia, sizeof(linia), plik);
+		if(j%5==0)
+		{
+			licznik_kolumn=0;
+			for(int i=5;(licznik_kolumn<mapa->liczba_kolumn);i+=11)
+			{
+					znak=linia[i];
+					switch(znak)
+                                	{
+                                        	case L' ': //spacja
+							  break;
+						case L'█': mapa->kolory[licznik_wierszy][licznik_kolumn] = 'c'; 
+							  break; //█
+
+						case L'▲': mapa->kolory[licznik_wierszy][licznik_kolumn] = 'c'; 
+							  mrowka->zwrot = 'N';
+							  mrowka->wiersz=licznik_wierszy;
+							  mrowka->kolumna=licznik_kolumn; 
+							  break; //▲
+						case L'▶': mapa->kolory[licznik_wierszy][licznik_kolumn] = 'c';
+							  mrowka->zwrot='E';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+							  break; //▶
+						case L'▼': mapa->kolory[licznik_wierszy][licznik_kolumn] = 'c'; 
+                                                          mrowka->zwrot='S';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+                                                          break; //▼
+						case L'◀': mapa->kolory[licznik_wierszy][licznik_kolumn] = 'c'; 
+                                                          mrowka->zwrot='W';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+                                                          break; //◀
+
+
+
+						case L'△':
+							  mapa->kolory[licznik_wierszy][licznik_kolumn] = 'b';
+                                                          mrowka->zwrot = 'N';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+							  break; //△
+						case L'▷':
+							  mapa->kolory[licznik_wierszy][licznik_kolumn] = 'b';
+                                                          mrowka->zwrot = 'E';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+							  break; //▷
+						case L'▽':
+							  mapa->kolory[licznik_wierszy][licznik_kolumn] = 'b';
+                                                          mrowka->zwrot = 'S';mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+							  break; //▽
+						case L'◁':
+							  mapa->kolory[licznik_wierszy][licznik_kolumn] = 'b';
+                                                          mrowka->zwrot = 'W';
+							  mrowka->wiersz=licznik_wierszy;
+                                                          mrowka->kolumna=licznik_kolumn;
+							  break; //◁
+
+                                	}
+				licznik_kolumn++;
+			}
+			licznik_wierszy++;
+		}
+	}
+	printf("Wczytano mape\n");
 }
 
 void zwolnij_mape(mapa_t mapa)
