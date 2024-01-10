@@ -70,29 +70,35 @@ int main(int argc, char **argv)
 	{
 		generuj_losowa_mape(mapa, zapelnienie);
 	}
-
 	for(int i=1;i<=liczba_iteracji;i++)
 	{
 		char nr_iteracji[50];
 		sprintf(nr_iteracji,"%d", i);
-		char *nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
+		char* nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
 		if(nazwa == NULL)
 		{
 			perror("Nie udalo sie zaalokowac pamieci na nazwe");
 			exit(1);
 		}
-		strcat(nazwa, przedrostek);
+		strcat(nazwa, przedrostek);//nie lepiej napisać od razu nazwa=strcat(przedrostek,nr_iteracji); i wtedy nie trzeba nic alokować
 		strcat(nazwa, nr_iteracji);
-		FILE *plik = fopen(nazwa, "w");
-		if(plik == NULL)
+		
+		FILE* plik;	
+		if(strcmp(przedrostek,"file")==0)
+			plik=stdout;
+		else plik = fopen(nazwa, "w");
+		if(plik== NULL)
 		{
+			free(nazwa);
 			perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
 			exit(1);
 		}
-
 		wypisz(mapa, mrowka, plik);
 		przejscie(mapa, mrowka);
+		//fclose(plik);
+		//free(nazwa);
+		//Nazwa powinna zostać zwolniona, ale konstrukcja z malloc w pętli to uniemożliwia, a plik zamknięty
 	}
-
+	
 	return 0;
 }

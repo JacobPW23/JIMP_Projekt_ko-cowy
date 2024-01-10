@@ -47,12 +47,8 @@ else return " ";
 void wypisz(mapa_t mapa, mrowka_t mrowka, FILE *plik)
 {
 char* avatar;
-char zwrot = mrowka->zwrot;
-int nr_wiersza_mr=mrowka->wiersz;
-int nr_kolumny_mr=mrowka->kolumna;
 int liczba_kolumn=mapa->liczba_kolumn;
 int liczba_wierszy=mapa->liczba_wierszy;
-char kolor=mapa->kolory[nr_wiersza_mr][nr_kolumny_mr];
 
 for(int i=0;i<liczba_wierszy;i++)
 {

@@ -3,22 +3,40 @@
 #include <time.h>
 #include <stdio.h>
 #include <errno.h>
-
+#include <math.h>
 mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 {
         mapa_t mapa=malloc(sizeof (*mapa));
+	if(mapa==NULL)
+	{
+		printf("Nie udało się zaalokować pamięci na mape");
+		return NULL;
+	}
 	mapa->liczba_kolumn=liczba_kolumn;
         mapa->liczba_wierszy=liczba_wierszy;
 
         mapa->kolory=malloc(liczba_wierszy*sizeof(char *));
 	if(mapa->kolory==NULL)
 	{
-		printf("Nie udało się zaalokować pamięci na mape");
+		free(mapa);
+		printf("Nie udało się zaalokować pamięci na kolory");
 		return NULL;
 	}
         for(int i=0;i<mapa->liczba_kolumn;i++)
         {
-                mapa->kolory[i]=malloc(liczba_kolumn*sizeof(char));
+                if((mapa->kolory[i]=malloc(liczba_kolumn*sizeof(char)))==NULL)
+		{
+			for (int j=i-1;j>=0;j--)
+			{
+				free(mapa->kolory[j]);
+				
+			}
+			free(mapa->kolory);
+			free(mapa);
+			printf("Nie udało się zaalokować pamięci na wszystkie pola");
+			return NULL;
+		}
+
         }
 
 	for(int i=0;i<mapa->liczba_wierszy;i++)
@@ -35,17 +53,22 @@ mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 void generuj_losowa_mape(mapa_t mapa, int zapelnienie)
 {
         srand(time(NULL));
-        for(int i=0;i<mapa->liczba_wierszy;i++)
-        {
-                for(int j=0;j<mapa->liczba_kolumn;j++)
-                {
-                        int random=(rand()%100)+1; //losowa liczba między 1 a 100
-                        if(random<=zapelnienie) //szansa, że wylosowana liczba jest mniejsza od zapełnienie to zapelnienie %
-                        {
-                                mapa->kolory[i][j]='c';
-                        }
-                }
-        }
+	int kolumny=mapa->liczba_kolumn;
+	int wiersze=mapa->liczba_wierszy;
+	int liczba_pol=floor(kolumny*wiersze*0.01*zapelnienie);
+	int x,y;
+	while(liczba_pol>0)
+	{
+		x=rand()%kolumny;
+		y=rand()%wiersze;
+		if(mapa->kolory[x][y]=='b')
+		{
+			mapa->kolory[x][y]='c';
+			liczba_pol--;	
+		}
+
+
+	}
 }
 
 void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
@@ -70,7 +93,7 @@ void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
 			mapa->kolory[wier_czarne][kol_czarne]='c';
 		}
 	}	
-      		
+      	fclose(plik);	
 	
 }
 
@@ -82,4 +105,5 @@ void zwolnij_mape(mapa_t mapa)
         }
 
         free(mapa->kolory);
+	free(mapa);
 }
