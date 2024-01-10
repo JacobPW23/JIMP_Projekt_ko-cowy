@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	int zapelnienie=-1;
 
 	int opt;
-	while((opt = getopt(argc, argv, "m:n:i:f:d:l:r:"))!=-1)
+	while((opt = getopt(argc, argv, "m:n:i:f:d:l:r:h"))!=-1)
 	{
 		switch(opt)
 		{
@@ -52,6 +52,17 @@ int main(int argc, char **argv)
 				//generuj losową mapę
 				zapelnienie = atoi(optarg);
 				break;
+			case 'h':
+				printf("Opcje: \n");
+				printf("-m : liczba wierszy mapy\n");
+				printf("-n : liczba kolumn mapy\n");
+			        printf("-i : liczba iteracji przejść\n");
+				printf("-f : nazwa pliku wynikowego\n");
+				printf("-d : początkowy kierunek mrówki N-północ E-wschód S-południe W-zachód\n");
+				printf("-l : załaduj mapę z pliku\n");
+				printf("-r : wygeneruj losową mapę zapełnioną w procentach\n");
+				printf("-h : wyświetl pomoc\n");
+				break;	
 			case '?':
 				printf("nieznana opcja\n");
 				break;
@@ -75,24 +86,31 @@ int main(int argc, char **argv)
 
 	for(int i=1;i<=liczba_iteracji;i++)
 	{
-		char nr_iteracji[50];
-		sprintf(nr_iteracji,"%d", i);
-		char *nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
-		if(nazwa == NULL)
+		if(strcmp(przedrostek, "file")==0)
 		{
-			perror("Nie udalo sie zaalokowac pamieci na nazwe");
-			exit(1);
+			wypisz(mapa, mrowka, stdout);
 		}
-		strcat(nazwa, przedrostek);
-		strcat(nazwa, nr_iteracji);
-		FILE *plik = fopen(nazwa, "w");
-		if(plik == NULL)
+		else
 		{
-			perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
-			exit(1);
-		}
+			char nr_iteracji[50];
+			sprintf(nr_iteracji,"%d", i);
+			char *nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
+			if(nazwa == NULL)
+			{
+				perror("Nie udalo sie zaalokowac pamieci na nazwe");
+				exit(1);
+			}
+			strcat(nazwa, przedrostek);
+			strcat(nazwa, nr_iteracji);
+			FILE *plik = fopen(nazwa, "w");
+			if(plik == NULL)
+			{
+				perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
+				exit(1);
+			}
 
-		wypisz(mapa, mrowka, plik);
+			wypisz(mapa, mrowka, plik);
+		}
 		przejscie(mapa, mrowka);
 	}
 
