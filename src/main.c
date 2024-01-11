@@ -75,14 +75,14 @@ int main(int argc, char **argv)
 		char nr_iteracji[50];
 		sprintf(nr_iteracji,"%d", i);
 		char* nazwa = malloc(strlen(przedrostek)+strlen(nr_iteracji));
+		
+		strcpy(nazwa,przedrostek);
+		strcat(nazwa,nr_iteracji);
 		if(nazwa == NULL)
 		{
 			perror("Nie udalo sie zaalokowac pamieci na nazwe");
 			exit(1);
 		}
-		strcat(nazwa, przedrostek);//nie lepiej napisać od razu nazwa=strcat(przedrostek,nr_iteracji); i wtedy nie trzeba nic alokować
-		strcat(nazwa, nr_iteracji);
-		
 		FILE* plik;	
 		if(strcmp(przedrostek,"file")==0)
 			plik=stdout;
@@ -94,11 +94,12 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		wypisz(mapa, mrowka, plik);
-		przejscie(mapa, mrowka);
-		//fclose(plik);
-		//free(nazwa);
-		//Nazwa powinna zostać zwolniona, ale konstrukcja z malloc w pętli to uniemożliwia, a plik zamknięty
+		if(przejscie(mapa, mrowka)==1)
+			return EXIT_FAILURE;
+		fclose(plik);
+		free(nazwa);
 	}
-	
+	zwolnij_mape(mapa);
+	zwolnij_mrowke(mrowka);	
 	return 0;
 }

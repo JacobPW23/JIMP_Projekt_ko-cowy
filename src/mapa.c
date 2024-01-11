@@ -22,7 +22,7 @@ mapa_t inicjuj_mape(int liczba_kolumn, int liczba_wierszy)
 		printf("Nie udało się zaalokować pamięci na kolory");
 		return NULL;
 	}
-        for(int i=0;i<mapa->liczba_kolumn;i++)
+        for(int i=0;i<mapa->liczba_wierszy;i++)
         {
                 if((mapa->kolory[i]=malloc(liczba_kolumn*sizeof(char)))==NULL)
 		{
