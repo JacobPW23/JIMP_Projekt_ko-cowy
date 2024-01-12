@@ -83,22 +83,25 @@ int main(int argc, char **argv)
 			perror("Nie udalo sie zaalokowac pamieci na nazwe");
 			exit(1);
 		}
-		FILE* plik;	
-		if(strcmp(przedrostek,"file")==0)
-			plik=stdout;
-		else plik = fopen(nazwa, "w");
-		if(plik== NULL)
-		{
-			free(nazwa);
-			perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
-			exit(1);
+		if(strcmp(przedrostek,"file")!=0){
+			FILE *plik;
+			if((plik=fopen(nazwa, "w"))== NULL)
+			{
+				free(nazwa);
+				perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
+				exit(1);
+			} 
+			else{
+				wypisz(mapa, mrowka, plik);
+				fclose(plik);
+			}
 		}
-		wypisz(mapa, mrowka, plik);
 		if(przejscie(mapa, mrowka)==1)
 			return EXIT_FAILURE;
-		fclose(plik);
 		free(nazwa);
 	}
+	if(strcmp(przedrostek,"file")==0)
+		wypisz(mapa, mrowka, stdout);
 	zwolnij_mape(mapa);
 	zwolnij_mrowke(mrowka);	
 	return 0;
