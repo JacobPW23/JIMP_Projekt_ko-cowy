@@ -12,7 +12,6 @@ mrowka_t inicjuj(int wiersz, int kolumna, char zwrot)
 	mrowka->wiersz=wiersz;
 	mrowka->kolumna=kolumna;
 	mrowka->zwrot=zwrot;
-	mrowka->nr_iteracji=0;
 	return mrowka;
 }
 int przejscie(mapa_t mapa,mrowka_t mrowka)

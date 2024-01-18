@@ -5,7 +5,6 @@ typedef struct mrowka {
         int wiersz;
         int kolumna;
         char zwrot;
-        int nr_iteracji;
 } *mrowka_t;
 //struktura przechowujaca aktualny stan mrowki
 
