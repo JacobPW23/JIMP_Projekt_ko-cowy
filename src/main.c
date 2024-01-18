@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	int zapelnienie=-1;
 
 	int opt;
-	while((opt = getopt(argc, argv, "m:n:i:f:d:l:r:"))!=-1)
+	while((opt = getopt(argc, argv, "m:n:i:f:d:l:r:h"))!=-1)
 	{
 		switch(opt)
 		{
@@ -49,6 +49,18 @@ int main(int argc, char **argv)
 			case 'r':
 				//generuj losową mapę
 				zapelnienie = atoi(optarg);
+				break;
+			case 'h':
+				printf("Opcje: \n");
+				printf("-m : liczba wierszy mapy\n");
+				printf("-n : liczba kolumn mapy\n");
+			        printf("-i : liczba iteracji przejść\n");
+				printf("-f : nazwa pliku wynikowego\n");
+				printf("-d : początkowy kierunek mrówki N-północ E-wschód S-południe W-zachód\n");
+				printf("-l : załaduj mapę z pliku\n");
+				printf("-r : wygeneruj losową mapę zapełnioną w procentach\n");
+				printf("-h : wyświetl pomoc\n");
+				return -1;
 				break;
 			case '?':
 				printf("nieznana opcja\n");
@@ -97,7 +109,10 @@ int main(int argc, char **argv)
 			}
 		}
 		if(przejscie(mapa, mrowka)==1)
+		{
+			printf("Wyjscie za mape\n");
 			return EXIT_FAILURE;
+		}
 		free(nazwa);
 	}
 	if(strcmp(przedrostek,"file")==0)
