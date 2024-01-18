@@ -38,6 +38,7 @@ W przypadku nie podania niezbędnych parametrów, przybierają one domyślne war
 
 ### Domyślne Ustawienia
 Mapa 10x10, kierunek w górę, 5 iteracji, wynik na wyjście standardowe
+
 ![Domyślne Ustawienia](https://github.com/JacobPW23/JIMP_Projekt_ko-cowy/assets/153267469/df0469b8-6f82-438e-8eea-e5026238410f)
 
 ### Zmiana Wielkości Mapy na 4x5
