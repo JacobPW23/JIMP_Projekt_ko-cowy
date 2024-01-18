@@ -54,26 +54,26 @@ for(int i=0;i<liczba_wierszy;i++)
 {
        for(int j=0;j<liczba_kolumn;j++)
        {
-               fprintf(plik,"┌─────────┐");
+               fprintf(plik,"┌───┐");
 
        }
        fprintf(plik, "\n");
-       for(int k=0;k<3;k++){
+       for(int k=0;k<1;k++){
 	        for(int j=0;j<liczba_kolumn;j++)
 	        {
-	              if(k==1){
+	              if(k==0){
 			avatar=generuj_oznaczenie_pola(i,j,mapa,mrowka);
-		      	fprintf(plik, "│    %s    │", avatar);
+		      	fprintf(plik, "│ %s │", avatar);
 		      }
 
 
-		      else	fprintf(plik,"│         │");
+		      else	fprintf(plik,"│   │");
 	        }
         fprintf(plik, "\n");
         }
         for(int j=0;j<liczba_kolumn;j++)
         {
-              fprintf(plik, "└─────────┘");
+              fprintf(plik, "└───┘");
         }
         fprintf(plik, "\n");
 

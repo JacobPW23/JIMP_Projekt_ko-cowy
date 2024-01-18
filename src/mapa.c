@@ -89,14 +89,13 @@ void wczytaj_mape(char *nazwa_pliku, mapa_t mapa, mrowka_t mrowka)
 	int licznik_kolumn=0;
 	wchar_t znak;
 	fgetws(linia, sizeof(linia), plik);
-	fgetws(linia, sizeof(linia), plik);
 	for (int j=0;licznik_wierszy<mapa->liczba_wierszy;j++)
 	{
 		fgetws(linia, sizeof(linia), plik);
-		if(j%5==0)
+		if(j%3==0)
 		{
 			licznik_kolumn=0;
-			for(int i=5;(licznik_kolumn<mapa->liczba_kolumn);i+=11)
+			for(int i=2;(licznik_kolumn<mapa->liczba_kolumn);i+=5)
 			{
 					znak=linia[i];
 					switch(znak)
