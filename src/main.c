@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	int liczba_wierszy=10;
 	int liczba_kolumn=10;
 	int liczba_iteracji=5;
-	char *przedrostek="file";
+	char *przedrostek="prefix";
 	char kierunek_mrowki='N';
 	char *nazwa_pliku="domyslna";
 	int zapelnienie=-1;
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 				printf("-l : załaduj mapę z pliku\n");
 				printf("-r : wygeneruj losową mapę zapełnioną w procentach\n");
 				printf("-h : wyświetl pomoc\n");
-				return -1;
+				exit(1);
 				break;
 			case '?':
 				printf("nieznana opcja\n");
@@ -92,16 +92,16 @@ int main(int argc, char **argv)
 		strcat(nazwa,nr_iteracji);
 		if(nazwa == NULL)
 		{
-			perror("Nie udalo sie zaalokowac pamieci na nazwe");
-			exit(1);
+			fprintf(stderr, "Nie udalo sie zaalokowac pamieci na nazwe\n");
+			exit(2);
 		}
-		if(strcmp(przedrostek,"file")!=0){
+		if(strcmp(przedrostek,"prefix")!=0){
 			FILE *plik;
 			if((plik=fopen(nazwa, "w"))== NULL)
 			{
 				free(nazwa);
-				perror("Nie udalo sie zaalokowac pamieci na plik wyjsciowy");
-				exit(1);
+				fprintf(stderr, "Nie udalo sie zaalokowac pamieci na plik wyjsciowyi\n");
+				exit(3);
 			} 
 			else{
 				wypisz(mapa, mrowka, plik);
@@ -110,12 +110,12 @@ int main(int argc, char **argv)
 		}
 		if(przejscie(mapa, mrowka)==1)
 		{
-			printf("Wyjscie za mape\n");
-			return EXIT_FAILURE;
+			fprintf(stderr, "Wyjscie za mape na %d iteracji\n", i);
+			exit(4);
 		}
 		free(nazwa);
 	}
-	if(strcmp(przedrostek,"file")==0)
+	if(strcmp(przedrostek,"prefix")==0)
 		wypisz(mapa, mrowka, stdout);
 	zwolnij_mape(mapa);
 	zwolnij_mrowke(mrowka);	
