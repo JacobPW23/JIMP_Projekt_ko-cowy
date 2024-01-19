@@ -1,10 +1,10 @@
 # Mrówka Langtona
 
 ## Opis
-Program służy symulacji Mrówki Langtona. Wynik jest wypisywany do pliku testowego w formie graficznej. 
+Program służy symulacji Mrówki Langtona. Wynik jest wypisywany do pliku testowego w formie graficznej. Program został napisany w języku C
 
 ## Instalacja i Uruchomienie
-Aby uruchomić program, wystarczy skompilować i zlinkować pliki według dołączonego pliku `Makefile`. Aby zbudować plik wykonywalny, wystarczy uruchomić skrypt `Makefile` komendą `make`.
+Aby uruchomić program, należy pobrać repozytorium, skompilować i zlinkować pliki według dołączonego pliku `Makefile`. Aby zbudować plik wykonywalny, wystarczy uruchomić skrypt `Makefile` komendą `make`.
 
 ## Cechy Programu
 Można ustawić:
